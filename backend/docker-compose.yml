@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend-ecommerce:
+    container_name: backend-ecommerce
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '4040:4040'
+    environment:
+      - MONGO_URL=mongodb://db-mongo-ecommerce:27017/develop
+    depends_on:
+      - db-mongo-ecommerce
+    volumes:
+      - .:/app
+
+  db-mongo-ecommerce:
+    container_name: db-mongo-ecommerce
+    image: mongo
+    ports:
+      - '27017:27030'
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+    driver: local
